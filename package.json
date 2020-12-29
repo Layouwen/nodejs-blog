@@ -4,12 +4,15 @@
   "description": "",
   "main": "bin/www.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=dev nodemon ./bin/www.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.20"
+    "cross-env": "^7.0.3",
+    "lodash": "^4.17.20",
+    "nodemon": "^2.0.6"
   }
 }
