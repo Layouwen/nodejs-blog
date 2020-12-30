@@ -9,12 +9,14 @@ const getPostData = req => {
       resolve({})
       return
     }
+
     if (req.headers['content-type'] !== 'application/json') {
       resolve({})
       return
     }
+
     let postData = ''
-    req.on('data', (err, chuck) => {
+    req.on('data', chuck => {
       postData += chuck
     })
     req.on('end', () => {
@@ -38,7 +40,7 @@ const serverHandle = (req, res) => {
   // 格式化 get 参数
   req.query = queryString.parse(url.split('?')[0])
 
-  getPostData().then(postData => {
+  getPostData(req).then(postData => {
     // 将 post 数据保存到 body 中
     req.body = postData
 
