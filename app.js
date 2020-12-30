@@ -38,7 +38,7 @@ const serverHandle = (req, res) => {
   req.path = url.split('?')[0]
 
   // 格式化 get 参数
-  req.query = queryString.parse(url.split('?')[0])
+  req.query = queryString.parse(url.split('?')[1])
 
   getPostData(req).then(postData => {
     // 将 post 数据保存到 body 中
