@@ -1,5 +1,6 @@
 const { exec } = require('../db/mysql')
 
+// 博客列表
 const getList = (author, keyword) => {
   let sql = 'SELECT * FROM blogs WHERE 1=1 '
   if (author) {
@@ -12,16 +13,12 @@ const getList = (author, keyword) => {
   return exec(sql)
 }
 
+// 博客详情
 const getDetail = id => {
-  return [
-    {
-      id: 1,
-      title: '我是标题',
-      content: '我是内容',
-      createTime: 1609295081027,
-      author: '梁又文'
-    }
-  ]
+  let sql = `SELECT * FROM blogs WHERE id='${id}';`
+  return exec(sql).then(rows => {
+    return rows
+  })
 }
 
 const newBlog = (blogData = {}) => {
