@@ -13,6 +13,7 @@
   "dependencies": {
     "cross-env": "^7.0.3",
     "lodash": "^4.17.20",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.6"
   }
 }
