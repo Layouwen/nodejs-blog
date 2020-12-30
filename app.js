@@ -44,9 +44,11 @@ const serverHandle = (req, res) => {
     // 将 post 数据保存到 body 中
     req.body = postData
 
-    const blogData = handleBlogRouter(req, res)
-    if (blogData) {
-      res.end(JSON.stringify(blogData))
+    const blogResult = handleBlogRouter(req, res)
+    if (blogResult) {
+      blogResult.then(blogData => {
+        res.end(JSON.stringify(blogData))
+      })
       return
     }
 
