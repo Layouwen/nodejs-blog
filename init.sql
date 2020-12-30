@@ -1,4 +1,5 @@
-
+-- 如果提示安全模式可以运行下行指令
+SET SQL_SAFE_UPDATES=0;
 
 -- 创建user表
 CREATE TABLE `myblog`.`users` (
@@ -27,4 +28,20 @@ SELECT id,username FROM users;
 
 SELECT * FROM users WHERE username='wangyu' AND `password`='wangyu';
 
-SELECT * FROM users WHERE password LIKE '%y%';
+SELECT * FROM users WHERE `password` LIKE '%y%';
+
+SELECT * FROM users WHERE username LIKE '%文%' ORDER BY id DESC;
+
+-- 更新
+UPDATE users SET realname='又文' WHERE username='layouwen';
+
+-- 删除
+--DELETE FROM users WHERE username='wangyu';
+UPDATE users SET state='0' WHERE username='wangyu';
+
+-- 修改表结构
+ALTER TABLE `myblog`.`users`
+ADD COLUMN `state` INT NOT NULL DEFAULT 1 AFTER `realname`;
+
+-- 查看所有没有禁用的用户
+SELECT * FROM users WHERE state<>'0';
