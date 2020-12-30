@@ -29,10 +29,14 @@ const handleBlogRouter = (req, res) => {
     })
   }
 
-  // 新建一篇博客
+  // 新建博客
   if (method === 'POST' && req.path === '/api/blog/new') {
-    const data = newBlog(req.body)
-    return new SuccessModel(data)
+    // TODO 临时名字
+    req.body.author = 'layouwen'
+    const result = newBlog(req.body)
+    return result.then(data => {
+      return new SuccessModel(data)
+    })
   }
 
   // 更新一篇博客

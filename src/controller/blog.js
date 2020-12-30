@@ -21,8 +21,17 @@ const getDetail = id => {
   })
 }
 
+// 新建博客
 const newBlog = (blogData = {}) => {
-  return { id: 1 }
+  const { title, content, author } = blogData
+  const createtime = Date.now()
+  console.log(title, content)
+  let sql = `INSERT INTO blogs (title, content, createtime, author) values ('${title}', '${content}', '${createtime}', '${author}');`
+  return exec(sql).then(insertData => {
+    return {
+      id: insertData.insertId
+    }
+  })
 }
 
 const updateBlog = (id, blogData = {}) => {
