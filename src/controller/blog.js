@@ -34,8 +34,13 @@ const newBlog = (blogData = {}) => {
   })
 }
 
+// 更新博客
 const updateBlog = (id, blogData = {}) => {
-  return true
+  const { title, content } = blogData
+  let sql = `UPDATE blogs SET title='${title}', content='${content}' WHERE id=${id}`
+  return exec(sql).then(updateDate => {
+    return updateDate
+  })
 }
 
 const delBlog = id => {
