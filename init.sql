@@ -45,3 +45,12 @@ ADD COLUMN `state` INT NOT NULL DEFAULT 1 AFTER `realname`;
 
 -- 查看所有没有禁用的用户
 SELECT * FROM users WHERE state<>'0';
+
+-- 暂时不考虑软删除
+ALTER TABLE `myblog`.`users`
+DROP COLUMN `state`;
+
+-- 添加 blogs 数据
+INSERT INTO blogs (title, content, createtime, author) values
+('标题A', '内容A', '1609314432391', 'layouwen'),
+('标题B', '内容B', '1609314454130', 'wangyu');
