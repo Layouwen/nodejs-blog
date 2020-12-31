@@ -39,7 +39,10 @@ const updateBlog = (id, blogData = {}) => {
   const { title, content } = blogData
   let sql = `UPDATE blogs SET title='${title}', content='${content}' WHERE id=${id}`
   return exec(sql).then(updateDate => {
-    return updateDate
+    if (updateDate.affectedRows > 0) {
+      return true
+    }
+    return false
   })
 }
 
