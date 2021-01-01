@@ -42,6 +42,7 @@ const handleBlogRouter = (req, res) => {
   // 更新一篇博客
   if (method === 'POST' && req.path === '/api/blog/update') {
     const result = updateBlog(id, req.body)
+
     return result.then(val => {
       if (val) { return new SuccessModel() }
       return new ErrorModel('更新博客失败')
@@ -50,9 +51,14 @@ const handleBlogRouter = (req, res) => {
 
   // 删除一篇博客
   if (method === 'POST' && req.path === '/api/blog/del') {
-    const result = delBlog(id)
-    if (result === true) return new SuccessModel()
-    return new ErrorModel()
+    // TODO 临时名字
+    const author = 'layouwen'
+    const result = delBlog(id, author)
+
+    return result.then(val => {
+      if (val) { return new SuccessModel() }
+      return new ErrorModel('删除博客失败')
+    })
   }
 }
 
