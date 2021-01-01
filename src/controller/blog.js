@@ -25,7 +25,7 @@ const getDetail = id => {
 const newBlog = (blogData = {}) => {
   const { title, content, author } = blogData
   const createtime = Date.now()
-  console.log(title, content)
+
   let sql = `INSERT INTO blogs (title, content, createtime, author) values ('${title}', '${content}', '${createtime}', '${author}');`
   return exec(sql).then(insertData => {
     return {
@@ -38,8 +38,11 @@ const newBlog = (blogData = {}) => {
 const updateBlog = (id, blogData = {}) => {
   const { title, content } = blogData
   let sql = `UPDATE blogs SET title='${title}', content='${content}' WHERE id=${id}`
+
   return exec(sql).then(updateDate => {
+    console.log(updateDate)
     if (updateDate.affectedRows > 0) {
+      console.log(updateDate)
       return true
     }
     return false

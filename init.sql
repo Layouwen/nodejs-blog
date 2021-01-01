@@ -1,3 +1,6 @@
+-- 创建数据库
+CREATE SCHEMA `myblog` ;
+
 -- 如果提示安全模式可以运行下行指令
 SET SQL_SAFE_UPDATES=0;
 
