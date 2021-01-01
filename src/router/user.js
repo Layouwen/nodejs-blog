@@ -1,5 +1,5 @@
 const { ErrorModel, SuccessModel } = require('../model/resModel')
-const { loginCheck } = require('../controller/user')
+const { login } = require('../controller/user')
 
 const handleUserRouter = (req, res) => {
   const method = req.method
@@ -9,7 +9,7 @@ const handleUserRouter = (req, res) => {
     // 解构 用户名 和 密码
     const { username, password } = req.body
 
-    const result = loginCheck(username, password)
+    const result = login(username, password)
     return result.then(data => {
       if (data.username) { return new SuccessModel() }
       return new ErrorModel('登录失败')

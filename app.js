@@ -33,12 +33,27 @@ const serverHandle = (req, res) => {
   // 设置返回格式
   res.setHeader('Content-type', 'application/json')
 
-  // 处理路径
+  // 解析 path 处理路径
   const url = req.url
   req.path = url.split('?')[0]
 
-  // 格式化 get 参数
+  // 解析 query 格式化 get 参数
   req.query = queryString.parse(url.split('?')[1])
+
+  // 解析 cookie
+  req.cookie = {}
+  const cookieStr = req.headers.cookie || ''
+  // 遍历获取到的 cookie
+  cookieStr.split(';').forEach(item => {
+    if (!item) return
+    const arr = item.trim().split('=')
+    const key = arr[0]
+    const val = arr[1]
+
+    // 将 cookie 的 key 和 value 保存到 req.cookie 的对象中
+    req.cookie[key] = val
+  })
+  console.log(req.cookie)
 
   getPostData(req).then(postData => {
     // 将 post 数据保存到 body 中
