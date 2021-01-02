@@ -2,6 +2,18 @@ const { ErrorModel } = require('../model/resModel')
 const { getDetail, getList, newBlog, updateBlog, delBlog } = require('../controller/blog')
 const { SuccessModel } = require('../model/resModel')
 
+// 登录验证函数
+const loginCheck = (req) => {
+  if (!req.session.username) {
+    return Promise.resolve(
+      new ErrorModel('尚未登录')
+    )
+  }
+  return Promise.resolve(
+    new SuccessModel({ session: req.session })
+  )
+}
+
 const handleBlogRouter = (req, res) => {
   // 判断请求类型
   const method = req.method
@@ -31,8 +43,11 @@ const handleBlogRouter = (req, res) => {
 
   // 新建博客
   if (method === 'POST' && req.path === '/api/blog/new') {
-    // TODO 临时名字
-    req.body.author = 'layouwen'
+    // 判断是否登录
+    const loginCheckResult = loginCheck(req)
+    if (loginCheckResult) return loginCheck
+
+    req.body.author = req.session.username
     const result = newBlog(req.body)
     return result.then(data => {
       return new SuccessModel(data)
@@ -41,6 +56,10 @@ const handleBlogRouter = (req, res) => {
 
   // 更新一篇博客
   if (method === 'POST' && req.path === '/api/blog/update') {
+    // 判断是否登录
+    const loginCheckResult = loginCheck(req)
+    if (loginCheckResult) return loginCheck
+
     const result = updateBlog(id, req.body)
 
     return result.then(val => {
@@ -51,8 +70,11 @@ const handleBlogRouter = (req, res) => {
 
   // 删除一篇博客
   if (method === 'POST' && req.path === '/api/blog/del') {
-    // TODO 临时名字
-    const author = 'layouwen'
+    // 判断是否登录
+    const loginCheckResult = loginCheck(req)
+    if (loginCheckResult) return loginCheck
+
+    const author = req.session.username
     const result = delBlog(id, author)
 
     return result.then(val => {
