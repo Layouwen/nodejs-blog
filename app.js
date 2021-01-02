@@ -1,36 +1,7 @@
 const queryString = require('querystring')
+const { get, set } = require('./src/db/redis')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
-
-// session 数据
-const SESSION_DATA = {}
-
-// 处理 post 请求
-const getPostData = req => {
-  return new Promise((resolve, reject) => {
-    if (req.method !== 'POST') {
-      resolve({})
-      return
-    }
-
-    if (req.headers['content-type'] !== 'application/json') {
-      resolve({})
-      return
-    }
-
-    let postData = ''
-    req.on('data', chuck => {
-      postData += chuck
-    })
-    req.on('end', () => {
-      if (!postData) {
-        resolve({})
-        return
-      }
-      resolve(JSON.parse(postData))
-    })
-  })
-}
 
 const serverHandle = (req, res) => {
   // 设置返回格式
@@ -57,19 +28,32 @@ const serverHandle = (req, res) => {
     req.cookie[key] = val
   })
 
-  // 解析 session
+  // 使用 redis 解析 session
   let needSetCookie = false
   let userId = req.cookie.userid
-  if (userId) {
-    if (!SESSION_DATA[userId]) SESSION_DATA[userId] = {}
-  } else {
+  if (!userId) {
     needSetCookie = true
     userId = `${Date.now()}_${Math.random()}`
-    SESSION_DATA[userId] = {}
+    // 初始化 redis 中的 session 值
+    set(userId, {})
   }
-  req.session = SESSION_DATA[userId]
-
-  getPostData(req).then(postData => {
+  // 获取 session
+  req.sessionId = userId
+  console.log('req.sessionId', req.sessionId)
+  get(req.sessionId).then(sessionData => {
+    console.log('sessionData', sessionData)
+    if (sessionData === null) {
+      // 初始化 redis 中的 session 值
+      set(req.sessionId, {})
+      // 设置 session
+      req.session = {}
+    } else {
+      // 设置 session
+      req.session = sessionData
+    }
+    console.log('req.session', req.session)
+    return getPostData(req)
+  }).then(postData => {
     // 将 post 数据保存到 body 中
     req.body = postData
 
@@ -102,6 +86,34 @@ const serverHandle = (req, res) => {
 
 module.exports = serverHandle
 
+// 处理 post 请求
+const getPostData = req => {
+  return new Promise((resolve, reject) => {
+    if (req.method !== 'POST') {
+      resolve({})
+      return
+    }
+
+    if (req.headers['content-type'] !== 'application/json') {
+      resolve({})
+      return
+    }
+
+    let postData = ''
+    req.on('data', chuck => {
+      postData += chuck
+    })
+    req.on('end', () => {
+      if (!postData) {
+        resolve({})
+        return
+      }
+      resolve(JSON.parse(postData))
+    })
+  })
+}
+
+// 计算 cookie 过期时间
 const getCookieExpires = () => {
   const d = new Date()
   d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
