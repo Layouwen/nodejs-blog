@@ -8,7 +8,7 @@ SET SQL_SAFE_UPDATES=0;
 CREATE TABLE `myblog`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(32) NOT NULL,
   `realname` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`));
 

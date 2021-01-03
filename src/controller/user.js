@@ -1,14 +1,16 @@
 const { exec, escape } = require('../db/mysql')
+const { genPassword } = require('../utils/cryp')
 
 const login = (username, password) => {
-  console.log('注入前', username, password)
   // 防止 sql 注入
   username = escape(username)
+
+  // 生成加密密码
+  password = genPassword(password)
   password = escape(password)
-  console.log('注入后', username, password)
+
 
   const sql = `SELECT username, realname FROM users WHERE username=${username} AND password=${password}`
-  console.log(sql)
   return exec(sql).then(rows => {
     return rows[0] || {}
   })
