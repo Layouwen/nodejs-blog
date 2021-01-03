@@ -1,3 +1,4 @@
+const xss = require('xss')
 const { exec } = require('../db/mysql')
 
 // 博客列表
@@ -23,7 +24,8 @@ const getDetail = id => {
 
 // 新建博客
 const newBlog = (blogData = {}) => {
-  const { title, content, author } = blogData
+  let { title, content, author } = blogData
+  title = xss(title)
   const createtime = Date.now()
 
   let sql = `INSERT INTO blogs (title, content, createtime, author) values ('${title}', '${content}', '${createtime}', '${author}');`
