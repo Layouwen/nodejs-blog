@@ -1,6 +1,7 @@
 const express = require('express')
 const { getDetail, getList, newBlog, updateBlog, delBlog } = require('../controller/blog')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
+const loginCheck = require('../middleware/loginCheck')
 const router = express.Router()
 
 router.get('/list', function(req, res, next) {
@@ -29,9 +30,61 @@ router.get('/list', function(req, res, next) {
 })
 
 router.get('/detail', function(req, res, next) {
-  res.json({
-    errno: 0,
-    data: [298, 672, 888, 590, 678]
+  console.log(req.query.id)
+  const result = getDetail(req.query.id)
+  console.log(result)
+  return result.then(data => {
+    if (data.length < 1) {
+      res.json(
+        new SuccessModel('没有对应数据')
+      )
+      return
+    }
+    res.json(
+      new SuccessModel(data)
+    )
+  })
+})
+
+router.post('/new', loginCheck, (req, res, next) => {
+  req.body.author = req.session.username
+  const result = newBlog(req.body)
+  return result.then(data => {
+    res.json(
+      new SuccessModel(data)
+    )
+  })
+})
+
+router.post('/update', loginCheck, (req, res, next) => {
+  const result = updateBlog(req.query.id, req.body)
+
+  return result.then(val => {
+    if (val) {
+      res.json(
+        new SuccessModel()
+      )
+    } else {
+      res.json(
+        new ErrorModel('更新博客失败')
+      )
+    }
+  })
+})
+
+router.post('/del', loginCheck, (req, res, next) => {
+  const author = req.session.username
+  const result = delBlog(req.query.id, author)
+
+  return result.then(val => {
+    if (val) {
+      res.json(
+        new SuccessModel()
+      )
+    }
+    res.json(
+      new ErrorModel('删除博客失败')
+    )
   })
 })
 
