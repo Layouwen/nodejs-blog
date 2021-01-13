@@ -30,11 +30,30 @@ router.get('/detail', async (ctx, next) => {
   ctx.body = new SuccessModel(data)
 })
 
-router.post('/new', async (ctx, next) => {
+router.post('/new', loginCheck, async (ctx, next) => {
   const body = ctx.request.body
   body.author = ctx.session.username
   const data = await newBlog(body)
   ctx.body = new SuccessModel(data)
+})
+
+router.post('/update', loginCheck, async (ctx, next) => {
+  const val = await updateBlog(ctx.query.id, ctx.request.body)
+  if (val) {
+    ctx.body = new SuccessModel()
+  } else {
+    ctx.body = new ErrorModel('更新博客失败')
+  }
+})
+
+router.post('/del', loginCheck, async (ctx, next) => {
+  const author = ctx.session.username
+  const val = await delBlog(ctx.query.id, author)
+  if (val) {
+    ctx.body = new SuccessModel()
+  } else {
+    ctx.body = new ErrorModel('删除博客失败')
+  }
 })
 
 module.exports = router

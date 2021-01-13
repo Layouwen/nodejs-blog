@@ -1,7 +1,7 @@
 const { exec, escape } = require('../db/mysql')
 const { genPassword } = require('../utils/cryp')
 
-const login = (username, password) => {
+const login = async (username, password) => {
   // 防止 sql 注入
   username = escape(username)
 
@@ -11,7 +11,7 @@ const login = (username, password) => {
 
   const sql = `SELECT username, realname FROM users WHERE username=${username} AND password=${password}`
 
-  const rows = exec(sql)
+  const rows = await exec(sql)
   return rows[0] || {}
 }
 
