@@ -11,12 +11,12 @@ if (env === 'dev') {
     user: 'root',
     password: 'layouwen',
     port: '3306',
-    database: 'myblog'
+    database: 'myblog',
   }
   // redis
   REDIS_CONF = {
     port: 6379,
-    host: '127.0.0.1'
+    host: '127.0.0.1',
   }
 }
 if (env === 'production') {
@@ -26,16 +26,15 @@ if (env === 'production') {
     user: 'root',
     password: 'layouwen',
     port: '3306',
-    database: 'myblog'
+    database: 'myblog',
   }
-
   // redis
   REDIS_CONF = {
-    port: 6389,
-    host: '127.0.0.1'
+    port: 6379,
+    host: '127.0.0.1',
   }
 }
 module.exports = {
   MYSQL_CONF,
-  REDIS_CONF
+  REDIS_CONF,
 }

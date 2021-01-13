@@ -1,0 +1,6 @@
+[0mGET /api/blog/list [36m304 [0m6.123 ms - -[0m
+[0mGET /api/blog/detail [36m304 [0m1.563 ms - -[0m
+[0mGET /api/blog/detail?id=1 [32m200 [0m1.344 ms - 114[0m
+::1 - - [13/Jan/2021:07:46:45 +0000] "GET /api/blog/detail?id=1 HTTP/1.0" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+::ffff:127.0.0.1 - - [13/Jan/2021:07:46:57 +0000] "GET /api/blog/detail?id=1 HTTP/1.0" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+::1 - - [13/Jan/2021:07:47:03 +0000] "GET /api/blog/detail?id=1 HTTP/1.0" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
