@@ -1,7 +1,0 @@
-Error: Connection lost: The server closed the connection.
-    at Protocol.end (E:\mine\nodejs-blob\node_modules\mysql\lib\protocol\Protocol.js:112:13)
-    at Socket.<anonymous> (E:\mine\nodejs-blob\node_modules\mysql\lib\Connection.js:94:28)
-    at Socket.<anonymous> (E:\mine\nodejs-blob\node_modules\mysql\lib\Connection.js:526:10)
-    at Socket.emit (events.js:327:22)
-    at endReadableNT (internal/streams/readable.js:1327:12)
-    at processTicksAndRejections (internal/process/task_queues.js:80:21)

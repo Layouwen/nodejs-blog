@@ -12,7 +12,7 @@ mongoose.connect(`${url}/${dbName}`, {
 
 const db = mongoose.connection
 
-db.on('error', err=>{
+db.on('error', err => {
   console.error(err)
 })
 
