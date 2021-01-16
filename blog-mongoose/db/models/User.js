@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
   },
   password: String,
   realname: String
-},{timestamps: true})
+}, { timestamps: true })
 
 // Model 对应 collection
 const User = mongoose.model('user', UserSchema)

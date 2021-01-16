@@ -1,61 +1,50 @@
 const xss = require('xss')
-const { exec } = require('../db/mysql')
+const Blog = require('../db/models/Blog')
 
 // 博客列表
 const getList = async (author, keyword) => {
-  let sql = 'SELECT * FROM blogs WHERE 1=1 '
-  if (author) {
-    sql += `AND author='${author}' `
-  }
-  if (keyword) {
-    sql += `AND title LIKE '%${keyword}%' `
-  }
-  sql += 'ORDER BY createtime DESC;'
-  return await exec(sql)
+  const whereOpt = {}
+  if (author) whereOpt.author = author
+  if (keyword) whereOpt.keyword = new RegExp(keyword)
+  const list = Blog.find(whereOpt).sort({ _id: -1 })
+  if (list === null) return
+  return list
 }
 
 // 博客详情
 const getDetail = async id => {
-  let sql = `SELECT * FROM blogs WHERE id='${id}';`
-  const rows = await exec(sql)
-  return rows[0]
+  return Blog.find({ _id: id })
 }
 
 // 新建博客
 const newBlog = async (blogData = {}) => {
   let { title, content, author } = blogData
   title = xss(title)
-  const createtime = Date.now()
+  content = xss(content)
 
-  let sql = `INSERT INTO blogs (title, content, createtime, author) values ('${title}', '${content}', '${createtime}', '${author}');`
-
-  const insertData = exec(sql)
+  const blog = await Blog.create({ title, content, author })
   return {
-    id: insertData.insertId,
+    id: blog._id
   }
 }
 
 // 更新博客
 const updateBlog = async (id, blogData = {}) => {
-  const { title, content } = blogData
-  let sql = `UPDATE blogs SET title='${title}', content='${content}' WHERE id=${id}`
+  let { title, content } = blogData
+  title = xss(title)
+  content = xss(content)
 
-  const updateDate = exec(sql)
-  if (updateDate.affectedRows > 0) {
-    return true
-  }
-  return false
+  const blog = await Blog.findOneAndUpdate(
+    { _id: id, title, content },
+    { new: true }
+  )
+  return blog !== null
 }
 
 const delBlog = async (id, author) => {
-  const sql = `DELETE FROM blogs WHERE id='${id}' AND author='${author}'`
-
-  const delData = exec(sql)
-
-  if (delData.affectedRows > 0) {
-    return true
-  }
-  return false
+  const blog = await Blog.findOneAndDelete({ _id: id, author })
+  console.log(blog)
+  return blog !== null
 }
 
 module.exports = {
@@ -63,5 +52,5 @@ module.exports = {
   getDetail,
   newBlog,
   updateBlog,
-  delBlog,
+  delBlog
 }
