@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const url = 'mongodb://localhost:27017'
-const dbName = 'myblog'
+const url = 'mongodb://username:password@localhost:27017'
+const dbName = 'nodejs-blog?authSource=admin'
 
 mongoose.set('useFindAndModify', false)
 
