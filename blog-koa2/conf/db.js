@@ -9,9 +9,9 @@ if (env === 'dev') {
   MYSQL_CONF = {
     host: 'localhost',
     user: 'root',
-    password: 'layouwen',
+    password: '123123',
     port: '3306',
-    database: 'myblog'
+    database: 'nodejs-blog'
   }
   // redis
   REDIS_CONF = {
