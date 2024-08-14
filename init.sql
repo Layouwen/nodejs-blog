@@ -1,11 +1,11 @@
 -- 创建数据库
-CREATE SCHEMA `myblog` ;
+CREATE SCHEMA `nodejs-blog` ;
 
 -- 如果提示安全模式可以运行下行指令
 SET SQL_SAFE_UPDATES=0;
 
 -- 创建user表
-CREATE TABLE `myblog`.`users` (
+CREATE TABLE `nodejs-blog`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(20) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE `myblog`.`users` (
   PRIMARY KEY (`id`));
 
 -- 创建 blogs 表
-CREATE TABLE `myblog`.`blogs` (
+CREATE TABLE `nodejs-blog`.`blogs` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(50) NOT NULL,
   `content` LONGTEXT NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE `myblog`.`blogs` (
   PRIMARY KEY (`id`));
 
 -- 添加用户
-INSERT INTO users (username, `password`, realname) values ('layouwen', 'layouwen', '梁又文');
+INSERT INTO users (username, `password`, realname) values ('layouwen', 'c6657f3bd287f6092c91a759ca3f5011', '梁又文');
 INSERT INTO users (username, `password`, realname) values ('wangyu', 'wangyu', '王煜');
 
 -- 查看表 users
@@ -43,14 +43,14 @@ UPDATE users SET realname='又文' WHERE username='layouwen';
 UPDATE users SET state='0' WHERE username='wangyu';
 
 -- 修改表结构
-ALTER TABLE `myblog`.`users`
+ALTER TABLE `nodejs-blog`.`users`
 ADD COLUMN `state` INT NOT NULL DEFAULT 1 AFTER `realname`;
 
 -- 查看所有没有禁用的用户
 SELECT * FROM users WHERE state<>'0';
 
 -- 暂时不考虑软删除
-ALTER TABLE `myblog`.`users`
+ALTER TABLE `nodejs-blog`.`users`
 DROP COLUMN `state`;
 
 -- 添加 blogs 数据

@@ -2,3 +2,4 @@
 /.idea/
 /.vscode/
 /blog-express/
+.DS_Store
