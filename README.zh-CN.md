@@ -14,4 +14,15 @@
 
 配置 `src/conf/db.js` 的 `mysql` 和 `redis` 参数
 在 `init.sql` 中创建数据库和表
+安装依赖 `npm install`
+执行 `npm run dev` 启动服务
+
+### express
+
+express 配合 mysql 语句拼接实现
+
+进入 `blog-express` 目录
+配置 `conf/db.js` 的 `mysql` 和 `redis` 参数
+在 `init.sql` 中创建数据库和表
+安装依赖 `npm install`
 执行 `npm run dev` 启动服务
